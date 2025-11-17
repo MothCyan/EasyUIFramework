@@ -28,6 +28,8 @@ namespace EasyUIFramework
             container.Register<IUITool>(uiTool);
 
             Debug.Log("UI服务初始化完成");
+
+            // 注：PoolManager 会在首次调用 Instance 时自动初始化
         }
 
         /// <summary>

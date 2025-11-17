@@ -250,4 +250,47 @@ public class EventBus : BaseSingleton<EventBus>
 
         return count;
     }
+
+    /// <summary>
+    /// 清除指定面板的所有事件监听器
+    /// 用于池化对象回收时防止内存泄漏
+    /// </summary>
+    /// <param name="panelName">面板名称</param>
+    public void ClearListenersForPanel(string panelName)
+    {
+        if (string.IsNullOrEmpty(panelName))
+            return;
+
+        // 使用面板名称作为事件前缀来清理相关事件
+        var keysToRemove = new List<string>();
+        
+        foreach (var key in eventHandlersNoParam.Keys)
+        {
+            if (key.StartsWith(panelName + ".") || key.StartsWith(panelName + "_"))
+            {
+                keysToRemove.Add(key);
+            }
+        }
+
+        foreach (var key in keysToRemove)
+        {
+            eventHandlersNoParam.Remove(key);
+        }
+
+        keysToRemove.Clear();
+        foreach (var key in eventHandlers.Keys)
+        {
+            if (key.StartsWith(panelName + ".") || key.StartsWith(panelName + "_"))
+            {
+                keysToRemove.Add(key);
+            }
+        }
+
+        foreach (var key in keysToRemove)
+        {
+            eventHandlers.Remove(key);
+        }
+
+        Debug.Log($"EventBus: Cleared listeners for panel '{panelName}'");
+    }
 }

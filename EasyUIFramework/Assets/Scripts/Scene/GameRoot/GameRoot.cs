@@ -22,7 +22,7 @@ namespace EasyUIFramework
             Debug.Log("DI示例已启动");
 
             // 切换到示例场景
-            sceneSystem.SetScene(new ExampleScene());
+            //sceneSystem.SetScene(new ExampleScene());
         }
     }
 }
